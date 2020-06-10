@@ -17,7 +17,7 @@ pipeline {
             }
         }
     }
-    agent "DockerServer";
+    agent {"DockerServer"};
     stages {
       stage('Build') {
             steps {
