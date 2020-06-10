@@ -16,7 +16,10 @@ pipeline {
                 sh 'python -m pytest'
             }
         }
-        stage('Build') {
+    }
+    agent "DockerServer";
+    stages {
+      stage('Build') {
             steps {
                 sh 'docker build https://github.com/AlissonMMenezes/Chapter10.git -t chapter10:latest'
             }
@@ -27,4 +30,6 @@ pipeline {
             }
         }
     }
+
 }
+
