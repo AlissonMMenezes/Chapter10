@@ -1,6 +1,11 @@
 pipeline {
     agent  any;
     stages {
+        stage('Preparing the environment') {
+            steps {
+                sh 'python -m pip install -r requirements.txt'
+            }
+        }
         stage('Code Quality') {
             steps {
                 sh 'python -m pylint app.py'
