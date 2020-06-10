@@ -6,7 +6,7 @@ This code is used as an example for the Chapter10 of the book DevOps With Linux
 from functools import wraps
 from flask import Flask, request, jsonify
 
-app = Flask(__name__)
+APP = Flask(__name__)
 
 
 def check_card(func):
@@ -16,6 +16,9 @@ def check_card(func):
     wraps(func)
 
     def validation(*args, **kwargs):
+      """
+        This function is a decorator, which will return the function corresponding to the respective action
+      """
         data = request.get_json()
         if not data.get("status"):
             response = {"approved": False,
@@ -33,7 +36,7 @@ def check_card(func):
     return validation
 
 
-@app.route("/api/transaction", methods=["POST"])
+@APP.route("/api/transaction", methods=["POST"])
 @check_card
 def transaction():
     """
@@ -46,4 +49,4 @@ def transaction():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+  APP.run(debug=True)
