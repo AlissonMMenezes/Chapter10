@@ -1,13 +1,19 @@
 #!/usr/bin/python3
+"""
+This code is used as an example for the Chapter10 of the book DevOps With Linux
 
-from flask import Flask, request, jsonify
+"""
 from functools import wraps
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
 
-def check_card(f):
-    wraps(f)
+def check_card(func):
+    """
+    This function validates the credit card transactions
+    """
+    wraps(func)
 
     def validation(*args, **kwargs):
         data = request.get_json()
@@ -22,14 +28,17 @@ def check_card(f):
                         "newLimit": data.get("limit"),
                         "reason": "Transaction above the limit"}
             return jsonify(response)
-        return f(*args, **kwargs)
+        return func(*args, **kwargs)
 
-    return(validation)
+    return validation
 
 
 @app.route("/api/transaction", methods=["POST"])
 @check_card
 def transaction():
+    """
+    This function is resposible to expose the endpoint for receiving the incoming transactions
+    """
     card = request.get_json()
     new_limit = card.get("limit") - card.get("transaction").get("amount")
     response = {"approved": True, "newLimit": new_limit}
