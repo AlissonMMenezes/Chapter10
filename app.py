@@ -19,22 +19,21 @@ def check_card(func):
       """
         This function is a decorator, which will return the function corresponding to the respective action
       """
-        data = request.get_json()
-        if not data.get("status"):
-            response = {"approved": False,
-                        "newLimit": data.get("limit"),
-                        "reason": "Blocked Card"}
-            return jsonify(response)
+      data = request.get_json()
+      if not data.get("status"):
+          response = {"approved": False,
+                      "newLimit": data.get("limit"),
+                      "reason": "Blocked Card"}
+          return jsonify(response)
 
-        if data.get("limit") < data.get("transaction").get("amount"):
-            response = {"approved": False,
-                        "newLimit": data.get("limit"),
-                        "reason": "Transaction above the limit"}
-            return jsonify(response)
-        return func(*args, **kwargs)
+      if data.get("limit") < data.get("transaction").get("amount"):
+          response = {"approved": False,
+                      "newLimit": data.get("limit"),
+                      "reason": "Transaction above the limit"}
+          return jsonify(response)
+      return func(*args, **kwargs)
 
     return validation
-
 
 @APP.route("/api/transaction", methods=["POST"])
 @check_card
