@@ -17,7 +17,8 @@ def check_card(func):
 
     def validation(*args, **kwargs):
         """
-          This function is a decorator, which will return the function corresponding to the respective action
+          This function is a decorator, 
+          which will return the function corresponding to the respective action
         """
         data = request.get_json()
         if not data.get("status"):
